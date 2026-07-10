@@ -18,6 +18,7 @@ class StackLogo extends StatelessWidget {
         width: size,
         height: size,
         fit: BoxFit.contain,
+        excludeFromSemantics: true,
       ),
     );
   }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:offlience_website/features/products/core/products_catalog.dart';
 import 'package:offlience_website/features/products/widgets/product_timeline.dart';
 import 'package:offlience_website/features/products/widgets/products_section_header.dart';
+import 'package:offlience_website/features/shared/widgets/visibility_ticker_mode.dart';
 
 class ProductsSection extends StatefulWidget {
   const ProductsSection({super.key});
@@ -22,22 +23,24 @@ class ProductsSectionState extends State<ProductsSection> {
   Widget build(BuildContext context) {
     final isCompact = MediaQuery.sizeOf(context).width < 720;
 
-    return Column(
-      children: [
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: isCompact ? 20 : 24),
-          child: ProductsSectionHeader(
-            title: ProductsCatalog.sectionTitle,
-            description: ProductsCatalog.sectionDescription,
+    return VisibilityTickerMode(
+      child: Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: isCompact ? 20 : 24),
+            child: ProductsSectionHeader(
+              title: ProductsCatalog.sectionTitle,
+              description: ProductsCatalog.sectionDescription,
+            ),
           ),
-        ),
-        SizedBox(height: isCompact ? 24 : 8),
-        ProductTimeline(
-          products: ProductsCatalog.products,
-          activeIndex: _activeIndex,
-          onItemSelected: _onItemSelected,
-        ),
-      ],
+          SizedBox(height: isCompact ? 24 : 8),
+          ProductTimeline(
+            products: ProductsCatalog.products,
+            activeIndex: _activeIndex,
+            onItemSelected: _onItemSelected,
+          ),
+        ],
+      ),
     );
   }
 }

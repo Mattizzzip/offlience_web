@@ -75,10 +75,11 @@ class ProductTimelineRailState extends State<ProductTimelineRail>
   }
 
   void _onPhotonStatus(AnimationStatus status) {
+    // No setState — AnimatedBuilder already rebuilds every tick.
     if (status == AnimationStatus.forward) {
-      setState(() => _movingForward = true);
+      _movingForward = true;
     } else if (status == AnimationStatus.reverse) {
-      setState(() => _movingForward = false);
+      _movingForward = false;
     }
   }
 
@@ -109,36 +110,40 @@ class ProductTimelineRailState extends State<ProductTimelineRail>
     return SizedBox(
       width: _isVertical ? _railThickness : widget.extent,
       height: _isVertical ? widget.extent : _railThickness,
-      child: AnimatedBuilder(
-        animation: _photonController,
-        builder: (context, child) {
-          return CustomPaint(
-            painter: TimelinePhotonPainter(
-              progress: _photonController.value,
-              movingForward: _movingForward,
-              trackInset: _trackInset,
-              axis: widget.axis,
-            ),
-            child: child,
-          );
-        },
-        child: Stack(
-          clipBehavior: Clip.none,
-          children: [
-            for (var i = 0; i < widget.products.length; i++)
-              Positioned(
-                top: _isVertical
-                    ? _nodeCenter(i) - _maxNodeExtent / 2
-                    : _railThickness / 2 - _maxNodeExtent / 2,
-                left: _isVertical
-                    ? _railThickness / 2 - _maxNodeExtent / 2
-                    : _nodeCenter(i) - _maxNodeExtent / 2,
-                child: ProductTimelineNode(
-                  isActive: i == widget.activeIndex,
-                  onTap: () => _onNodeTap(i),
-                ),
+      child: RepaintBoundary(
+        child: AnimatedBuilder(
+          animation: _photonController,
+          builder: (context, child) {
+            return CustomPaint(
+              painter: TimelinePhotonPainter(
+                progress: _photonController.value,
+                movingForward: _movingForward,
+                trackInset: _trackInset,
+                axis: widget.axis,
               ),
-          ],
+              isComplex: true,
+              willChange: true,
+              child: child,
+            );
+          },
+          child: Stack(
+            clipBehavior: Clip.none,
+            children: [
+              for (var i = 0; i < widget.products.length; i++)
+                Positioned(
+                  top: _isVertical
+                      ? _nodeCenter(i) - _maxNodeExtent / 2
+                      : _railThickness / 2 - _maxNodeExtent / 2,
+                  left: _isVertical
+                      ? _railThickness / 2 - _maxNodeExtent / 2
+                      : _nodeCenter(i) - _maxNodeExtent / 2,
+                  child: ProductTimelineNode(
+                    isActive: i == widget.activeIndex,
+                    onTap: () => _onNodeTap(i),
+                  ),
+                ),
+            ],
+          ),
         ),
       ),
     );

@@ -65,6 +65,7 @@ class StackCarouselTrackState extends State<StackCarouselTrack> {
 
                   return Transform.translate(
                     offset: Offset(-offset, 0),
+                    filterQuality: FilterQuality.none,
                     child: child,
                   );
                 },

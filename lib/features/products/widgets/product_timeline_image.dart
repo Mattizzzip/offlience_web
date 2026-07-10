@@ -13,6 +13,9 @@ class ProductTimelineImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cacheSize =
+        (size * MediaQuery.devicePixelRatioOf(context)).round().clamp(1, 2048);
+
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 450),
       switchInCurve: Curves.easeOut,
@@ -24,6 +27,10 @@ class ProductTimelineImage extends StatelessWidget {
         child: Image.asset(
           product.imageAsset,
           fit: BoxFit.contain,
+          filterQuality: FilterQuality.medium,
+          cacheWidth: cacheSize,
+          cacheHeight: cacheSize,
+          gaplessPlayback: true,
         ),
       ),
     );

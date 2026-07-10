@@ -1,7 +1,6 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 
+/// Soft glow without [ImageFiltered] — much cheaper on web/GPU.
 class BlurBlob extends StatelessWidget {
   const BlurBlob({super.key, required this.size, required this.color});
 
@@ -10,12 +9,23 @@ class BlurBlob extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ImageFiltered(
-      imageFilter: ImageFilter.blur(sigmaX: 70, sigmaY: 70),
-      child: Container(
+    return IgnorePointer(
+      child: SizedBox(
         width: size,
         height: size,
-        decoration: BoxDecoration(shape: BoxShape.circle, color: color),
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            gradient: RadialGradient(
+              colors: [
+                color,
+                color.withValues(alpha: color.a * 0.45),
+                color.withValues(alpha: 0),
+              ],
+              stops: const [0.0, 0.45, 1.0],
+            ),
+          ),
+        ),
       ),
     );
   }

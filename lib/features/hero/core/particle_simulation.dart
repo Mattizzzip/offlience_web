@@ -7,7 +7,9 @@ class ParticleSimulation {
   final List<Particle> particles = [];
   Size canvasSize = Size.zero;
 
-  void init(Size size, {int count = 150, int seed = 42}) {
+  static const int defaultCount = 42;
+
+  void init(Size size, {int count = defaultCount, int seed = 42}) {
     if (particles.isNotEmpty && canvasSize == size) return;
 
     canvasSize = size;
@@ -32,21 +34,33 @@ class ParticleSimulation {
   }
 
   void update() {
+    final width = canvasSize.width;
+    final height = canvasSize.height;
+
     for (final particle in particles) {
-      particle.position += particle.velocity;
+      var dx = particle.position.dx + particle.velocity.dx;
+      var dy = particle.position.dy + particle.velocity.dy;
+      var vx = particle.velocity.dx;
+      var vy = particle.velocity.dy;
 
-      if (particle.position.dx < 0 || particle.position.dx > canvasSize.width) {
-        particle.velocity = Offset(-particle.velocity.dx, particle.velocity.dy);
-      }
-      if (particle.position.dy < 0 ||
-          particle.position.dy > canvasSize.height) {
-        particle.velocity = Offset(particle.velocity.dx, -particle.velocity.dy);
+      if (dx < 0) {
+        dx = 0;
+        vx = -vx;
+      } else if (dx > width) {
+        dx = width;
+        vx = -vx;
       }
 
-      particle.position = Offset(
-        particle.position.dx.clamp(0.0, canvasSize.width),
-        particle.position.dy.clamp(0.0, canvasSize.height),
-      );
+      if (dy < 0) {
+        dy = 0;
+        vy = -vy;
+      } else if (dy > height) {
+        dy = height;
+        vy = -vy;
+      }
+
+      particle.position = Offset(dx, dy);
+      particle.velocity = Offset(vx, vy);
     }
   }
 }

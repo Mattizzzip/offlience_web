@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:offlience_website/features/contact/contact.dart';
 import 'package:offlience_website/features/footer/footer.dart';
 import 'package:offlience_website/features/hero/hero.dart';
+import 'package:offlience_website/features/products/core/products_catalog.dart';
 import 'package:offlience_website/features/products/products.dart';
 import 'package:offlience_website/features/stack/stack.dart';
 import 'package:offlience_website/features/theme/app_colors.dart';
@@ -16,6 +17,20 @@ class LandingPage extends StatefulWidget {
 class LandingPageState extends State<LandingPage> {
   final ScrollController _scrollController = ScrollController();
   final GlobalKey _productsKey = GlobalKey();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _precacheAssets());
+  }
+
+  Future<void> _precacheAssets() async {
+    if (!mounted) return;
+    for (final product in ProductsCatalog.products) {
+      await precacheImage(AssetImage(product.imageAsset), context);
+      if (!mounted) return;
+    }
+  }
 
   @override
   void dispose() {

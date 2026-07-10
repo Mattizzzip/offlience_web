@@ -19,21 +19,25 @@ class ParticleLayer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    simulation.init(size, count: 150);
+    simulation.init(size, count: ParticleSimulation.defaultCount);
 
-    return AnimatedBuilder(
-      animation: controller,
-      builder: (context, child) {
-        simulation.update();
-        return CustomPaint(
-          painter: ParticlePainter(
-            particles: simulation.particles,
-            mousePosition: mouseTracker.position,
-            mouseInside: mouseTracker.isInside,
-          ),
-          size: size,
-        );
-      },
+    return RepaintBoundary(
+      child: AnimatedBuilder(
+        animation: controller,
+        builder: (context, child) {
+          simulation.update();
+          return CustomPaint(
+            painter: ParticlePainter(
+              particles: simulation.particles,
+              mousePosition: mouseTracker.position,
+              mouseInside: mouseTracker.isInside,
+            ),
+            size: size,
+            isComplex: true,
+            willChange: true,
+          );
+        },
+      ),
     );
   }
 }

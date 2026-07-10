@@ -245,10 +245,11 @@ class TimelinePhotonPainter extends CustomPainter {
     final headOffset =
         vertical ? Offset(center, headPos) : Offset(headPos, center);
 
-    final headPaint = Paint()
-      ..color = faded(AppColors.gold)
-      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 1.5);
-    canvas.drawCircle(headOffset, 2.5, headPaint);
+    canvas.drawCircle(
+      headOffset,
+      2.6,
+      Paint()..color = faded(AppColors.gold.withValues(alpha: 0.4)),
+    );
     canvas.drawCircle(
       headOffset,
       1.4,

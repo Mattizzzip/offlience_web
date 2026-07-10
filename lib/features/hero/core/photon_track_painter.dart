@@ -6,10 +6,25 @@ class PhotonTrackPainter extends CustomPainter {
 
   final double progress;
 
+  static const int trackCount = 3;
+  static const double trackGap = 18;
+
   @override
   void paint(Canvas canvas, Size size) {
-    final centerX = size.width / 2;
+    final totalWidth = (trackCount - 1) * trackGap;
+    final startX = (size.width - totalWidth) / 2;
 
+    for (var index = 0; index < trackCount; index++) {
+      _paintTrack(
+        canvas,
+        size,
+        startX + index * trackGap,
+        (progress + index * 0.22) % 1.0,
+      );
+    }
+  }
+
+  void _paintTrack(Canvas canvas, Size size, double centerX, double progress) {
     final trackPaint = Paint()
       ..color = AppColors.trackLine.withValues(alpha: 0.35)
       ..strokeWidth = 1
@@ -48,8 +63,7 @@ class PhotonTrackPainter extends CustomPainter {
       visibleBottom,
     );
 
-    Color faded(Color color) =>
-        color.withValues(alpha: color.a * bottomFade);
+    Color faded(Color color) => color.withValues(alpha: color.a * bottomFade);
 
     final gradient = LinearGradient(
       begin: Alignment.topCenter,
@@ -76,11 +90,11 @@ class PhotonTrackPainter extends CustomPainter {
     );
 
     if (visibleBottom > 0 && visibleBottom <= size.height) {
-      final headPaint = Paint()
-        ..color = faded(AppColors.photon)
-        ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 1.2);
-      canvas.drawCircle(Offset(centerX, visibleBottom), 2, headPaint);
-
+      canvas.drawCircle(
+        Offset(centerX, visibleBottom),
+        2.2,
+        Paint()..color = faded(AppColors.photon.withValues(alpha: 0.45)),
+      );
       canvas.drawCircle(
         Offset(centerX, visibleBottom),
         1.2,

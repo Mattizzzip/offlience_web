@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:offlience_website/features/hero/core/particle.dart';
 import 'package:offlience_website/features/theme/app_colors.dart';
@@ -13,37 +15,53 @@ class ParticlePainter extends CustomPainter {
   final Offset mousePosition;
   final bool mouseInside;
 
-  static const double connectionDistance = 110;
-  static const double mouseDistance = 140;
+  static const double connectionDistance = 88;
+  static const double connectionDistanceSq =
+      connectionDistance * connectionDistance;
+  static const double mouseDistance = 110;
+  static const double mouseDistanceSq = mouseDistance * mouseDistance;
 
   @override
   void paint(Canvas canvas, Size size) {
-    final linePaint = Paint()..strokeWidth = 1;
+    final linePaint = Paint()
+      ..strokeWidth = 1
+      ..style = PaintingStyle.stroke;
     final dotPaint = Paint()
-      ..color = AppColors.particle.withValues(alpha: 0.6);
+      ..color = AppColors.particle.withValues(alpha: 0.55)
+      ..style = PaintingStyle.fill;
 
-    for (var i = 0; i < particles.length; i++) {
+    final count = particles.length;
+
+    for (var i = 0; i < count; i++) {
       final a = particles[i];
-      canvas.drawCircle(a.position, 2.2, dotPaint);
+      final ax = a.position.dx;
+      final ay = a.position.dy;
+      canvas.drawCircle(a.position, 2.0, dotPaint);
 
-      for (var j = i + 1; j < particles.length; j++) {
+      for (var j = i + 1; j < count; j++) {
         final b = particles[j];
-        final distance = (a.position - b.position).distance;
-        if (distance < connectionDistance) {
-          final opacity = (1 - distance / connectionDistance) * 0.3;
-          linePaint.color = AppColors.particleLine.withValues(alpha: opacity);
-          canvas.drawLine(a.position, b.position, linePaint);
-        }
+        final dx = ax - b.position.dx;
+        final dy = ay - b.position.dy;
+        final distanceSq = dx * dx + dy * dy;
+        if (distanceSq >= connectionDistanceSq) continue;
+
+        final distance = math.sqrt(distanceSq);
+        final opacity = (1 - distance / connectionDistance) * 0.28;
+        linePaint.color = AppColors.particleLine.withValues(alpha: opacity);
+        canvas.drawLine(a.position, b.position, linePaint);
       }
 
-      if (mouseInside) {
-        final distance = (a.position - mousePosition).distance;
-        if (distance < mouseDistance) {
-          final opacity = (1 - distance / mouseDistance) * 0.4;
-          linePaint.color = AppColors.particleLine.withValues(alpha: opacity);
-          canvas.drawLine(a.position, mousePosition, linePaint);
-        }
-      }
+      if (!mouseInside) continue;
+
+      final mdx = ax - mousePosition.dx;
+      final mdy = ay - mousePosition.dy;
+      final mouseSq = mdx * mdx + mdy * mdy;
+      if (mouseSq >= mouseDistanceSq) continue;
+
+      final distance = math.sqrt(mouseSq);
+      final opacity = (1 - distance / mouseDistance) * 0.35;
+      linePaint.color = AppColors.particleLine.withValues(alpha: opacity);
+      canvas.drawLine(a.position, mousePosition, linePaint);
     }
   }
 

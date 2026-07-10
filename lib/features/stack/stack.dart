@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:offlience_website/features/shared/widgets/visibility_ticker_mode.dart';
 import 'package:offlience_website/features/stack/core/carousel_scroll_logic.dart';
 import 'package:offlience_website/features/stack/core/stack_catalog.dart';
 import 'package:offlience_website/features/stack/widgets/stack_carousel_track.dart';
@@ -33,20 +34,24 @@ class StackSectionState extends State<StackSection>
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      height: 56,
-      child: Stack(
-        clipBehavior: Clip.hardEdge,
-        fit: StackFit.expand,
-        children: [
-          StackCarouselTrack(
-            technologies: StackCatalog.technologies,
-            controller: _scrollController,
-            scrollLogic: _scrollLogic,
+    return VisibilityTickerMode(
+      child: SizedBox(
+        width: double.infinity,
+        height: 56,
+        child: RepaintBoundary(
+          child: Stack(
+            clipBehavior: Clip.hardEdge,
+            fit: StackFit.expand,
+            children: [
+              StackCarouselTrack(
+                technologies: StackCatalog.technologies,
+                controller: _scrollController,
+                scrollLogic: _scrollLogic,
+              ),
+              const StackFadeOverlay(),
+            ],
           ),
-          const StackFadeOverlay(),
-        ],
+        ),
       ),
     );
   }
