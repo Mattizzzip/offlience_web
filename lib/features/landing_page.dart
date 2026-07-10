@@ -1,37 +1,80 @@
 import 'package:flutter/material.dart';
+import 'package:offlience_website/features/contact/contact.dart';
+import 'package:offlience_website/features/footer/footer.dart';
 import 'package:offlience_website/features/hero/hero.dart';
 import 'package:offlience_website/features/products/products.dart';
 import 'package:offlience_website/features/stack/stack.dart';
 import 'package:offlience_website/features/theme/app_colors.dart';
 
-class LandingPage extends StatelessWidget {
+class LandingPage extends StatefulWidget {
   const LandingPage({super.key});
 
   @override
+  State<LandingPage> createState() => LandingPageState();
+}
+
+class LandingPageState extends State<LandingPage> {
+  final ScrollController _scrollController = ScrollController();
+  final GlobalKey _productsKey = GlobalKey();
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _scrollToProducts() async {
+    final context = _productsKey.currentContext;
+    if (context == null) return;
+
+    await Scrollable.ensureVisible(
+      context,
+      duration: const Duration(milliseconds: 700),
+      curve: Curves.easeInOutCubic,
+      alignment: 0.05,
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final isCompact = MediaQuery.sizeOf(context).width < 720;
+
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
         child: SingleChildScrollView(
+          controller: _scrollController,
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+                padding: EdgeInsets.symmetric(
+                  horizontal: isCompact ? 12 : 16,
+                  vertical: isCompact ? 16 : 24,
+                ),
                 child: Center(
                   child: ConstrainedBox(
                     constraints: const BoxConstraints(maxWidth: 1400),
-                    child: const Column(
+                    child: Column(
                       children: [
-                        HeroSection(),
-                        SizedBox(height: 32),
-                        StackSection(),
+                        HeroSection(onDiscoverMore: _scrollToProducts),
+                        SizedBox(height: isCompact ? 24 : 32),
+                        const StackSection(),
                       ],
                     ),
                   ),
                 ),
               ),
-              const SizedBox(height: 56),
-              const ProductsSection(),
+              KeyedSubtree(
+                key: _productsKey,
+                child: const ProductsSection(),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: isCompact ? 12 : 0,
+                ),
+                child: const ContactSection(),
+              ),
+              const FooterSection(),
             ],
           ),
         ),

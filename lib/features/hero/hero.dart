@@ -13,7 +13,9 @@ import 'package:offlience_website/features/hero/widgets/photon_tracks.dart';
 import 'package:offlience_website/features/theme/app_colors.dart';
 
 class HeroSection extends StatefulWidget {
-  const HeroSection({super.key});
+  const HeroSection({super.key, this.onDiscoverMore});
+
+  final VoidCallback? onDiscoverMore;
 
   @override
   State<HeroSection> createState() => HeroSectionState();
@@ -51,8 +53,10 @@ class HeroSectionState extends State<HeroSection> with TickerProviderStateMixin 
     return LayoutBuilder(
       builder: (context, constraints) {
         final width = constraints.maxWidth;
-        final height = math.max(580.0, width * 0.48).clamp(580.0, 720.0);
         final isCompact = width < 720;
+        final height = isCompact
+            ? math.max(520.0, width * 1.15).clamp(520.0, 640.0)
+            : math.max(580.0, width * 0.48).clamp(580.0, 720.0);
         final insetX = width * 0.14;
         final insetY = height * 0.2;
 
@@ -136,23 +140,29 @@ class HeroSectionState extends State<HeroSection> with TickerProviderStateMixin 
                   ),
                 ],
                 Center(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      HeroHeadline(isCompact: isCompact),
-                      const SizedBox(height: 32),
-                      const DiscoverButton(onPressed: _noop),
-                    ],
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: isCompact ? 16 : 0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        HeroHeadline(isCompact: isCompact),
+                        SizedBox(height: isCompact ? 24 : 32),
+                        DiscoverButton(
+                          onPressed: widget.onDiscoverMore ?? _noop,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: SizedBox(
-                    height: MediaQuery.of(context).size.width * 0.15,
+                    height: isCompact
+                        ? 72
+                        : MediaQuery.sizeOf(context).width * 0.15,
                     child: PhotonTracks(controller: _photonController),
                   ),
-                )
-
+                ),
               ],
             ),
           ),

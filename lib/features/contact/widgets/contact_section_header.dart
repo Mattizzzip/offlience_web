@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:offlience_website/features/theme/app_colors.dart';
 
-class ProductsSectionHeader extends StatelessWidget {
-  const ProductsSectionHeader({
+class ContactSectionHeader extends StatelessWidget {
+  const ContactSectionHeader({
     super.key,
     required this.title,
     required this.description,
@@ -13,16 +13,14 @@ class ProductsSectionHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isCompact = MediaQuery.sizeOf(context).width < 720;
-
     return Column(
       children: [
         Text(
           title,
           textAlign: TextAlign.center,
-          style: TextStyle(
+          style: const TextStyle(
             color: AppColors.textPrimary,
-            fontSize: isCompact ? 28 : 36,
+            fontSize: 36,
             fontWeight: FontWeight.w600,
             letterSpacing: -0.8,
             height: 1.15,
@@ -34,9 +32,9 @@ class ProductsSectionHeader extends StatelessWidget {
           child: Text(
             description,
             textAlign: TextAlign.center,
-            style: TextStyle(
+            style: const TextStyle(
               color: AppColors.textMuted,
-              fontSize: isCompact ? 15 : 17,
+              fontSize: 17,
               fontWeight: FontWeight.w400,
               height: 1.5,
             ),

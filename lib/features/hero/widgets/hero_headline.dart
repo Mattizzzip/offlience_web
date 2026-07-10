@@ -13,14 +13,14 @@ class HeroHeadline extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: isCompact ? 24 : 48),
+      padding: EdgeInsets.symmetric(horizontal: isCompact ? 12 : 48),
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 760),
         child: Text(
           headline,
           textAlign: TextAlign.center,
           style: TextStyle(
-            fontSize: isCompact ? 28 : 42,
+            fontSize: isCompact ? 24 : 42,
             fontWeight: FontWeight.w600,
             height: 1.15,
             letterSpacing: -0.8,

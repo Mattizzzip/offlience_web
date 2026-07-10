@@ -4,145 +4,221 @@ import 'package:offlience_website/features/theme/app_colors.dart';
 class TimelinePhotonPainter extends CustomPainter {
   TimelinePhotonPainter({
     required this.progress,
-    required this.movingDown,
+    required this.movingForward,
     required this.trackInset,
+    this.axis = Axis.vertical,
   });
 
   final double progress;
-  final bool movingDown;
+  final bool movingForward;
   final double trackInset;
+  final Axis axis;
 
   @override
   void paint(Canvas canvas, Size size) {
-    final centerX = size.width / 2;
-    final trackTop = trackInset;
-    final trackBottom = size.height - trackInset;
-    final trackHeight = trackBottom - trackTop;
+    if (axis == Axis.vertical) {
+      _paintVertical(canvas, size);
+    } else {
+      _paintHorizontal(canvas, size);
+    }
+  }
 
+  void _paintVertical(Canvas canvas, Size size) {
+    final center = size.width / 2;
+    final trackStart = trackInset;
+    final trackEnd = size.height - trackInset;
+    final trackLength = trackEnd - trackStart;
+
+    _drawTrackLine(
+      canvas,
+      Offset(center, trackStart),
+      Offset(center, trackEnd),
+    );
+
+    final fadeZone = trackLength * 0.14;
+    final photonLength = trackLength * 0.22;
+    final travelEnd = trackEnd - fadeZone;
+    final head = trackStart + progress * (travelEnd - trackStart + photonLength);
+
+    if (movingForward) {
+      _paintAlongAxis(
+        canvas: canvas,
+        center: center,
+        trackStart: trackStart,
+        trackEnd: trackEnd,
+        head: head,
+        photonLength: photonLength,
+        fadeZone: fadeZone,
+        travelEnd: travelEnd,
+        forward: true,
+        vertical: true,
+      );
+    } else {
+      _paintAlongAxis(
+        canvas: canvas,
+        center: center,
+        trackStart: trackStart,
+        trackEnd: trackEnd,
+        head: head,
+        photonLength: photonLength,
+        fadeZone: fadeZone,
+        travelEnd: travelEnd,
+        forward: false,
+        vertical: true,
+      );
+    }
+  }
+
+  void _paintHorizontal(Canvas canvas, Size size) {
+    final center = size.height / 2;
+    final trackStart = trackInset;
+    final trackEnd = size.width - trackInset;
+    final trackLength = trackEnd - trackStart;
+
+    _drawTrackLine(
+      canvas,
+      Offset(trackStart, center),
+      Offset(trackEnd, center),
+    );
+
+    final fadeZone = trackLength * 0.14;
+    final photonLength = trackLength * 0.22;
+    final travelEnd = trackEnd - fadeZone;
+    final head = trackStart + progress * (travelEnd - trackStart + photonLength);
+
+    if (movingForward) {
+      _paintAlongAxis(
+        canvas: canvas,
+        center: center,
+        trackStart: trackStart,
+        trackEnd: trackEnd,
+        head: head,
+        photonLength: photonLength,
+        fadeZone: fadeZone,
+        travelEnd: travelEnd,
+        forward: true,
+        vertical: false,
+      );
+    } else {
+      _paintAlongAxis(
+        canvas: canvas,
+        center: center,
+        trackStart: trackStart,
+        trackEnd: trackEnd,
+        head: head,
+        photonLength: photonLength,
+        fadeZone: fadeZone,
+        travelEnd: travelEnd,
+        forward: false,
+        vertical: false,
+      );
+    }
+  }
+
+  void _drawTrackLine(Canvas canvas, Offset start, Offset end) {
     final trackPaint = Paint()
       ..color = AppColors.steel.withValues(alpha: 0.35)
       ..strokeWidth = 1
       ..strokeCap = StrokeCap.round;
 
-    canvas.drawLine(
-      Offset(centerX, trackTop),
-      Offset(centerX, trackBottom),
-      trackPaint,
-    );
+    canvas.drawLine(start, end, trackPaint);
+  }
 
-    const fadeZoneFraction = 0.14;
-    final fadeZone = trackHeight * fadeZoneFraction;
-    final photonLength = trackHeight * 0.22;
-    final travelEnd = trackBottom - fadeZone;
-    final headY = trackTop + progress * (travelEnd - trackTop + photonLength);
+  void _paintAlongAxis({
+    required Canvas canvas,
+    required double center,
+    required double trackStart,
+    required double trackEnd,
+    required double head,
+    required double photonLength,
+    required double fadeZone,
+    required double travelEnd,
+    required bool forward,
+    required bool vertical,
+  }) {
+    if (forward) {
+      if (head <= trackStart) return;
 
-    if (movingDown) {
-      _paintPhotonDown(
-        canvas,
-        centerX,
-        trackTop,
-        trackBottom,
-        headY,
-        photonLength,
-        fadeZone,
-        travelEnd,
+      final endFade = head > travelEnd
+          ? (1 - (head - travelEnd) / fadeZone).clamp(0.0, 1.0)
+          : 1.0;
+      if (endFade <= 0) return;
+
+      final tail = head - photonLength;
+      final visibleStart = tail.clamp(trackStart, trackEnd);
+      final visibleEnd = head.clamp(trackStart, trackEnd);
+      if (visibleEnd <= visibleStart) return;
+
+      _drawStreak(
+        canvas: canvas,
+        center: center,
+        visibleStart: visibleStart,
+        visibleEnd: visibleEnd,
+        fade: endFade,
+        brightAtEnd: true,
+        vertical: vertical,
       );
-    } else {
-      _paintPhotonUp(
-        canvas,
-        centerX,
-        trackTop,
-        trackBottom,
-        headY,
-        photonLength,
-        fadeZone,
-      );
+      return;
     }
-  }
 
-  void _paintPhotonDown(
-    Canvas canvas,
-    double centerX,
-    double trackTop,
-    double trackBottom,
-    double headY,
-    double photonLength,
-    double fadeZone,
-    double travelEnd,
-  ) {
-    if (headY <= trackTop) return;
+    if (head >= trackEnd) return;
 
-    final bottomFade = headY > travelEnd
-        ? (1 - (headY - travelEnd) / fadeZone).clamp(0.0, 1.0)
+    final startFade = head < trackStart + fadeZone
+        ? ((head - trackStart) / fadeZone).clamp(0.0, 1.0)
         : 1.0;
+    if (startFade <= 0) return;
 
-    if (bottomFade <= 0) return;
+    final tail = head + photonLength;
+    final visibleStart = head.clamp(trackStart, trackEnd);
+    final visibleEnd = tail.clamp(trackStart, trackEnd);
+    if (visibleEnd <= visibleStart) return;
 
-    final tailTop = headY - photonLength;
-    final visibleTop = tailTop.clamp(trackTop, trackBottom);
-    final visibleBottom = headY.clamp(trackTop, trackBottom);
-
-    if (visibleBottom <= visibleTop) return;
-
-    _drawStreak(canvas, centerX, visibleTop, visibleBottom, bottomFade, true);
+    _drawStreak(
+      canvas: canvas,
+      center: center,
+      visibleStart: visibleStart,
+      visibleEnd: visibleEnd,
+      fade: startFade,
+      brightAtEnd: false,
+      vertical: vertical,
+    );
   }
 
-  void _paintPhotonUp(
-    Canvas canvas,
-    double centerX,
-    double trackTop,
-    double trackBottom,
-    double headY,
-    double photonLength,
-    double fadeZone,
-  ) {
-    if (headY >= trackBottom) return;
-
-    final topFade = headY < trackTop + fadeZone
-        ? ((headY - trackTop) / fadeZone).clamp(0.0, 1.0)
-        : 1.0;
-
-    if (topFade <= 0) return;
-
-    final tailBottom = headY + photonLength;
-    final visibleTop = headY.clamp(trackTop, trackBottom);
-    final visibleBottom = tailBottom.clamp(trackTop, trackBottom);
-
-    if (visibleBottom <= visibleTop) return;
-
-    _drawStreak(canvas, centerX, visibleTop, visibleBottom, topFade, false);
-  }
-
-  void _drawStreak(
-    Canvas canvas,
-    double centerX,
-    double visibleTop,
-    double visibleBottom,
-    double fade,
-    bool brightAtBottom,
-  ) {
-    final rect = Rect.fromLTRB(centerX - 1, visibleTop, centerX + 1, visibleBottom);
+  void _drawStreak({
+    required Canvas canvas,
+    required double center,
+    required double visibleStart,
+    required double visibleEnd,
+    required double fade,
+    required bool brightAtEnd,
+    required bool vertical,
+  }) {
+    final rect = vertical
+        ? Rect.fromLTRB(center - 1, visibleStart, center + 1, visibleEnd)
+        : Rect.fromLTRB(visibleStart, center - 1, visibleEnd, center + 1);
 
     Color faded(Color color) => color.withValues(alpha: color.a * fade);
 
+    final colors = brightAtEnd
+        ? [
+            faded(AppColors.gold.withValues(alpha: 0)),
+            faded(AppColors.gold.withValues(alpha: 0.15)),
+            faded(AppColors.gold.withValues(alpha: 0.5)),
+            faded(AppColors.gold.withValues(alpha: 0.85)),
+            faded(AppColors.gold),
+          ]
+        : [
+            faded(AppColors.gold),
+            faded(AppColors.gold.withValues(alpha: 0.85)),
+            faded(AppColors.gold.withValues(alpha: 0.5)),
+            faded(AppColors.gold.withValues(alpha: 0.15)),
+            faded(AppColors.gold.withValues(alpha: 0)),
+          ];
+
     final gradient = LinearGradient(
-      begin: Alignment.topCenter,
-      end: Alignment.bottomCenter,
-      colors: brightAtBottom
-          ? [
-              faded(AppColors.gold.withValues(alpha: 0)),
-              faded(AppColors.gold.withValues(alpha: 0.15)),
-              faded(AppColors.gold.withValues(alpha: 0.5)),
-              faded(AppColors.gold.withValues(alpha: 0.85)),
-              faded(AppColors.gold),
-            ]
-          : [
-              faded(AppColors.gold),
-              faded(AppColors.gold.withValues(alpha: 0.85)),
-              faded(AppColors.gold.withValues(alpha: 0.5)),
-              faded(AppColors.gold.withValues(alpha: 0.15)),
-              faded(AppColors.gold.withValues(alpha: 0)),
-            ],
+      begin: vertical ? Alignment.topCenter : Alignment.centerLeft,
+      end: vertical ? Alignment.bottomCenter : Alignment.centerRight,
+      colors: colors,
       stops: const [0.0, 0.25, 0.55, 0.82, 1.0],
     );
 
@@ -151,19 +227,30 @@ class TimelinePhotonPainter extends CustomPainter {
       ..strokeWidth = 2
       ..strokeCap = StrokeCap.round;
 
-    canvas.drawLine(
-      Offset(centerX, visibleTop),
-      Offset(centerX, visibleBottom),
-      streakPaint,
-    );
+    if (vertical) {
+      canvas.drawLine(
+        Offset(center, visibleStart),
+        Offset(center, visibleEnd),
+        streakPaint,
+      );
+    } else {
+      canvas.drawLine(
+        Offset(visibleStart, center),
+        Offset(visibleEnd, center),
+        streakPaint,
+      );
+    }
 
-    final headY = brightAtBottom ? visibleBottom : visibleTop;
+    final headPos = brightAtEnd ? visibleEnd : visibleStart;
+    final headOffset =
+        vertical ? Offset(center, headPos) : Offset(headPos, center);
+
     final headPaint = Paint()
       ..color = faded(AppColors.gold)
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 1.5);
-    canvas.drawCircle(Offset(centerX, headY), 2.5, headPaint);
+    canvas.drawCircle(headOffset, 2.5, headPaint);
     canvas.drawCircle(
-      Offset(centerX, headY),
+      headOffset,
       1.4,
       Paint()..color = faded(AppColors.gold),
     );
@@ -172,7 +259,8 @@ class TimelinePhotonPainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant TimelinePhotonPainter oldDelegate) {
     return oldDelegate.progress != progress ||
-        oldDelegate.movingDown != movingDown ||
-        oldDelegate.trackInset != trackInset;
+        oldDelegate.movingForward != movingForward ||
+        oldDelegate.trackInset != trackInset ||
+        oldDelegate.axis != axis;
   }
 }

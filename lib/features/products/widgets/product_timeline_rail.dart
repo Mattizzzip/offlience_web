@@ -10,13 +10,15 @@ class ProductTimelineRail extends StatefulWidget {
     required this.products,
     required this.activeIndex,
     required this.onItemSelected,
-    required this.height,
+    required this.extent,
+    this.axis = Axis.vertical,
   });
 
   final List<Product> products;
   final int activeIndex;
   final ValueChanged<int> onItemSelected;
-  final double height;
+  final double extent;
+  final Axis axis;
 
   @override
   State<ProductTimelineRail> createState() => ProductTimelineRailState();
@@ -24,16 +26,17 @@ class ProductTimelineRail extends StatefulWidget {
 
 class ProductTimelineRailState extends State<ProductTimelineRail>
     with SingleTickerProviderStateMixin {
-  static const double _railWidth = 24;
+  static const double _railThickness = 24;
   static const double _maxNodeExtent = 12;
   static const Duration _cycleDuration = Duration(milliseconds: 5600);
 
   final ProductTimelineLogic _logic = const ProductTimelineLogic();
   late final AnimationController _photonController;
-  bool _movingDown = true;
+  bool _movingForward = true;
   int _lastReportedIndex = 0;
 
   double get _trackInset => _maxNodeExtent / 2 + 10;
+  bool get _isVertical => widget.axis == Axis.vertical;
 
   @override
   void initState() {
@@ -73,9 +76,9 @@ class ProductTimelineRailState extends State<ProductTimelineRail>
 
   void _onPhotonStatus(AnimationStatus status) {
     if (status == AnimationStatus.forward) {
-      setState(() => _movingDown = true);
+      setState(() => _movingForward = true);
     } else if (status == AnimationStatus.reverse) {
-      setState(() => _movingDown = false);
+      setState(() => _movingForward = false);
     }
   }
 
@@ -104,16 +107,17 @@ class ProductTimelineRailState extends State<ProductTimelineRail>
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: _railWidth,
-      height: widget.height,
+      width: _isVertical ? _railThickness : widget.extent,
+      height: _isVertical ? widget.extent : _railThickness,
       child: AnimatedBuilder(
         animation: _photonController,
         builder: (context, child) {
           return CustomPaint(
             painter: TimelinePhotonPainter(
               progress: _photonController.value,
-              movingDown: _movingDown,
+              movingForward: _movingForward,
               trackInset: _trackInset,
+              axis: widget.axis,
             ),
             child: child,
           );
@@ -123,8 +127,12 @@ class ProductTimelineRailState extends State<ProductTimelineRail>
           children: [
             for (var i = 0; i < widget.products.length; i++)
               Positioned(
-                top: _nodeCenterY(i) - _maxNodeExtent / 2,
-                left: _railWidth / 2 - _maxNodeExtent / 2,
+                top: _isVertical
+                    ? _nodeCenter(i) - _maxNodeExtent / 2
+                    : _railThickness / 2 - _maxNodeExtent / 2,
+                left: _isVertical
+                    ? _railThickness / 2 - _maxNodeExtent / 2
+                    : _nodeCenter(i) - _maxNodeExtent / 2,
                 child: ProductTimelineNode(
                   isActive: i == widget.activeIndex,
                   onTap: () => _onNodeTap(i),
@@ -136,15 +144,15 @@ class ProductTimelineRailState extends State<ProductTimelineRail>
     );
   }
 
-  double _nodeCenterY(int index) {
-    final trackTop = _trackInset;
-    final trackBottom = widget.height - _trackInset;
+  double _nodeCenter(int index) {
+    final trackStart = _trackInset;
+    final trackEnd = widget.extent - _trackInset;
 
     if (widget.products.length <= 1) {
-      return widget.height / 2;
+      return widget.extent / 2;
     }
 
     final fraction = index / (widget.products.length - 1);
-    return trackTop + fraction * (trackBottom - trackTop);
+    return trackStart + fraction * (trackEnd - trackStart);
   }
 }

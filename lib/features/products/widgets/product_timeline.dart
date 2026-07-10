@@ -23,24 +23,25 @@ class ProductTimeline extends StatelessWidget {
 
   double _panelHeight(BuildContext context) {
     final screenHeight = MediaQuery.sizeOf(context).height;
-    return math.max(640.0, screenHeight * 0.82);
+    return math.max(480.0, screenHeight * 0.58);
   }
 
   @override
   Widget build(BuildContext context) {
     final product = products[activeIndex];
-    final isCompact = MediaQuery.sizeOf(context).width < _breakpoint;
+    final width = MediaQuery.sizeOf(context).width;
+    final isCompact = width < _breakpoint;
     final panelHeight = _panelHeight(context);
 
     return SizedBox(
-      width: MediaQuery.sizeOf(context).width,
+      width: width,
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: isCompact ? 20 : 48),
         child: Center(
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: _contentMaxWidth),
             child: isCompact
-                ? _buildCompactLayout(product, panelHeight)
+                ? _buildCompactLayout(context, product)
                 : _buildDesktopLayout(product, panelHeight),
           ),
         ),
@@ -49,7 +50,7 @@ class ProductTimeline extends StatelessWidget {
   }
 
   double _railHeight(double panelHeight) {
-    return math.min(420.0, panelHeight * 0.56);
+    return math.min(380.0, panelHeight * 0.72);
   }
 
   Widget _buildDesktopLayout(Product product, double panelHeight) {
@@ -58,23 +59,24 @@ class ProductTimeline extends StatelessWidget {
     return SizedBox(
       height: panelHeight,
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Expanded(
-            child: Center(
+            child: Align(
+              alignment: Alignment.center,
               child: ProductTimelineImage(
                 product: product,
-                size: math.min(480.0, panelHeight * 0.62),
+                size: math.min(440.0, panelHeight * 0.72),
               ),
             ),
           ),
           const SizedBox(width: 48),
-          Center(
-            child: ProductTimelineRail(
-              products: products,
-              activeIndex: activeIndex,
-              onItemSelected: onItemSelected,
-              height: railHeight,
-            ),
+          ProductTimelineRail(
+            products: products,
+            activeIndex: activeIndex,
+            onItemSelected: onItemSelected,
+            extent: railHeight,
+            axis: Axis.vertical,
           ),
           const SizedBox(width: 56),
           Expanded(
@@ -88,29 +90,34 @@ class ProductTimeline extends StatelessWidget {
     );
   }
 
-  Widget _buildCompactLayout(Product product, double panelHeight) {
-    final railHeight = math.min(200.0, _railHeight(panelHeight) * 0.7);
+  Widget _buildCompactLayout(BuildContext context, Product product) {
+    final railWidth = math.min(
+      MediaQuery.sizeOf(context).width - 40,
+      320.0,
+    );
 
-    return SizedBox(
-      height: panelHeight,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          ProductTimelineRail(
-            products: products,
-            activeIndex: activeIndex,
-            onItemSelected: onItemSelected,
-            height: railHeight,
-          ),
-          const SizedBox(height: 36),
-          ProductTimelineImage(
-            product: product,
-            size: math.min(340.0, panelHeight * 0.45),
-          ),
-          const SizedBox(height: 36),
-          ProductTimelineContent(product: product),
-        ],
-      ),
+    return Column(
+      children: [
+        ProductTimelineImage(
+          product: product,
+          size: math.min(240.0, MediaQuery.sizeOf(context).width * 0.55),
+        ),
+        const SizedBox(height: 28),
+        ProductTimelineRail(
+          products: products,
+          activeIndex: activeIndex,
+          onItemSelected: onItemSelected,
+          extent: railWidth,
+          axis: Axis.horizontal,
+        ),
+        const SizedBox(height: 24),
+        ProductTimelineContent(
+          product: product,
+          centered: true,
+          compact: true,
+        ),
+        const SizedBox(height: 24),
+      ],
     );
   }
 }

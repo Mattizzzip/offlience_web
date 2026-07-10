@@ -11,6 +11,8 @@ class ProductTimelineNode extends StatelessWidget {
   final bool isActive;
   final VoidCallback onTap;
 
+  static const double size = 12;
+
   @override
   Widget build(BuildContext context) {
     return MouseRegion(
@@ -21,14 +23,14 @@ class ProductTimelineNode extends StatelessWidget {
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 350),
           curve: Curves.easeOut,
-          width: isActive ? 12 : 8,
-          height: isActive ? 12 : 8,
+          width: size,
+          height: size,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             color: isActive ? AppColors.gold : Colors.transparent,
             border: Border.all(
               color: isActive ? AppColors.gold : AppColors.steel,
-              width: isActive ? 0 : 1.5,
+              width: 1.5,
             ),
             boxShadow: isActive
                 ? [

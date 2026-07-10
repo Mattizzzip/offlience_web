@@ -20,16 +20,18 @@ class ProductsSectionState extends State<ProductsSection> {
 
   @override
   Widget build(BuildContext context) {
+    final isCompact = MediaQuery.sizeOf(context).width < 720;
+
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
+          padding: EdgeInsets.symmetric(horizontal: isCompact ? 20 : 24),
           child: ProductsSectionHeader(
             title: ProductsCatalog.sectionTitle,
             description: ProductsCatalog.sectionDescription,
           ),
         ),
-        const SizedBox(height: 48),
+        SizedBox(height: isCompact ? 24 : 8),
         ProductTimeline(
           products: ProductsCatalog.products,
           activeIndex: _activeIndex,
