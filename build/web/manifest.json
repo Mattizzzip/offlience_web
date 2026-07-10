@@ -1,11 +1,11 @@
 {
-    "name": "Offlience",
-    "short_name": "Offlience",
+    "name": "Osipau — Software Developer",
+    "short_name": "Osipau",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#D1D2D9",
     "theme_color": "#0B121A",
-    "description": "IE ANDREI OSIPAU — Offlience. Offline-first software studio.",
+    "description": "Osipau — software developer building mobile apps and web products.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
