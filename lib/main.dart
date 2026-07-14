@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:offlience_website/features/landing_page.dart';
 import 'package:offlience_website/features/legal/core/legal_routes.dart';
@@ -14,9 +15,19 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  static const _appTitle = 'Andrei Osipau — Software Developer';
+
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setApplicationSwitcherDescription(
+      const ApplicationSwitcherDescription(
+        label: _appTitle,
+        primaryColor: 0xFF0B121A,
+      ),
+    );
+
     return MaterialApp(
+      title: _appTitle,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: AppColors.navy),
