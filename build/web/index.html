@@ -18,8 +18,12 @@
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="Osipau — software developer building mobile apps and web products.">
+  <meta name="description" content="Andrei Osipau — software developer building mobile apps and web products.">
   <meta name="theme-color" content="#0B121A">
+  <meta property="og:title" content="Andrei Osipau — Software Developer">
+  <meta property="og:description" content="Andrei Osipau — software developer building mobile apps and web products.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://offlience.com/">
 
   <!-- iOS meta tags & icons -->
   <meta name="mobile-web-app-capable" content="yes">
@@ -33,6 +37,47 @@
   <link rel="shortcut icon" href="favicon.ico">
 
   <title>Andrei Osipau — Software Developer</title>
+  <!--
+    Flutter web may overwrite document.title with an empty string during boot.
+    Google indexes the rendered DOM, so guard against an empty <title>.
+  -->
+  <script>
+    (function () {
+      var SITE_TITLE = 'Andrei Osipau — Software Developer';
+      var titleEl = document.querySelector('title');
+
+      function applyTitle(value) {
+        var next = (value && String(value).trim()) ? String(value) : SITE_TITLE;
+        if (titleEl) {
+          titleEl.textContent = next;
+        }
+        return next;
+      }
+
+      try {
+        Object.defineProperty(document, 'title', {
+          configurable: true,
+          enumerable: true,
+          get: function () {
+            return titleEl ? titleEl.textContent : SITE_TITLE;
+          },
+          set: function (value) {
+            applyTitle(value);
+          }
+        });
+      } catch (e) {}
+
+      applyTitle(SITE_TITLE);
+
+      if (titleEl) {
+        new MutationObserver(function () {
+          if (!titleEl.textContent || !titleEl.textContent.trim()) {
+            titleEl.textContent = SITE_TITLE;
+          }
+        }).observe(titleEl, { childList: true, characterData: true, subtree: true });
+      }
+    })();
+  </script>
   <link rel="manifest" href="manifest.json">
 </head>
 <body>

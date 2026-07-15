@@ -7,25 +7,25 @@ import 'package:offlience_website/features/legal/privacy_policy_page.dart';
 import 'package:offlience_website/features/legal/terms_of_service_page.dart';
 import 'package:offlience_website/features/theme/app_colors.dart';
 
+const _appTitle = 'Andrei Osipau — Software Developer';
+
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   usePathUrlStrategy();
+  SystemChrome.setApplicationSwitcherDescription(
+    const ApplicationSwitcherDescription(
+      label: _appTitle,
+      primaryColor: 0xFF0B121A,
+    ),
+  );
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  static const _appTitle = 'Andrei Osipau — Software Developer';
-
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setApplicationSwitcherDescription(
-      const ApplicationSwitcherDescription(
-        label: _appTitle,
-        primaryColor: 0xFF0B121A,
-      ),
-    );
-
     return MaterialApp(
       title: _appTitle,
       debugShowCheckedModeBanner: false,
