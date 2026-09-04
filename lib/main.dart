@@ -30,6 +30,8 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: AppColors.navy),
         useMaterial3: true,
       ),
+      initialRoute:
+          WidgetsBinding.instance.platformDispatcher.defaultRouteName,
       onGenerateRoute: AppRouter.onGenerateRoute,
       onGenerateInitialRoutes: AppRouter.onGenerateInitialRoutes,
     );

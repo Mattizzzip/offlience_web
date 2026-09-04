@@ -35,8 +35,12 @@ class AppRouter {
         return const TermsOfServicePage();
       case LegalRoutes.migraineTrackerPrivacyPolicy:
         return const MigraineTrackerPrivacyPolicyPage();
+      case LegalRoutes.migraineTrackerPrivacyPolicyRu:
+        return const MigraineTrackerPrivacyPolicyPage(russian: true);
       case LegalRoutes.migraineTrackerTermsOfUse:
         return const MigraineTrackerTermsOfUsePage();
+      case LegalRoutes.migraineTrackerTermsOfUseRu:
+        return const MigraineTrackerTermsOfUsePage(russian: true);
       case '/':
       default:
         return const LandingPage();

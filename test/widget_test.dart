@@ -28,5 +28,17 @@ void main() {
       AppRouter.pageFor('${LegalRoutes.migraineTrackerTermsOfUse}/'),
       isA<MigraineTrackerTermsOfUsePage>(),
     );
+    expect(
+      (AppRouter.pageFor(LegalRoutes.migraineTrackerPrivacyPolicyRu)
+              as MigraineTrackerPrivacyPolicyPage)
+          .russian,
+      isTrue,
+    );
+    expect(
+      (AppRouter.pageFor('${LegalRoutes.migraineTrackerTermsOfUseRu}/')
+              as MigraineTrackerTermsOfUsePage)
+          .russian,
+      isTrue,
+    );
   });
 }
