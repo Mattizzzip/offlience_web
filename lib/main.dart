@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
-import 'package:offlience_website/features/landing_page.dart';
-import 'package:offlience_website/features/legal/core/legal_routes.dart';
-import 'package:offlience_website/features/legal/privacy_policy_page.dart';
-import 'package:offlience_website/features/legal/terms_of_service_page.dart';
+import 'package:offlience_website/features/app_router.dart';
 import 'package:offlience_website/features/theme/app_colors.dart';
 
 const _appTitle = 'Andrei Osipau — Software Developer';
@@ -33,12 +30,8 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: AppColors.navy),
         useMaterial3: true,
       ),
-      initialRoute: '/',
-      routes: {
-        '/': (_) => const LandingPage(),
-        LegalRoutes.privacyPolicy: (_) => const PrivacyPolicyPage(),
-        LegalRoutes.terms: (_) => const TermsOfServicePage(),
-      },
+      onGenerateRoute: AppRouter.onGenerateRoute,
+      onGenerateInitialRoutes: AppRouter.onGenerateInitialRoutes,
     );
   }
 }

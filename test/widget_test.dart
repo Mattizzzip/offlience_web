@@ -1,30 +1,32 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:offlience_website/main.dart';
+import 'package:offlience_website/features/app_router.dart';
+import 'package:offlience_website/features/landing_page.dart';
+import 'package:offlience_website/features/legal/core/legal_routes.dart';
+import 'package:offlience_website/features/legal/migraine_tracker_privacy_policy_page.dart';
+import 'package:offlience_website/features/legal/migraine_tracker_terms_of_use_page.dart';
+import 'package:offlience_website/features/legal/privacy_policy_page.dart';
+import 'package:offlience_website/features/legal/terms_of_service_page.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
-
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
-
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
-
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+  test('AppRouter maps legal paths, including trailing slashes', () {
+    expect(AppRouter.pageFor('/'), isA<LandingPage>());
+    expect(AppRouter.pageFor(LegalRoutes.privacyPolicy), isA<PrivacyPolicyPage>());
+    expect(AppRouter.pageFor(LegalRoutes.terms), isA<TermsOfServicePage>());
+    expect(
+      AppRouter.pageFor(LegalRoutes.migraineTrackerPrivacyPolicy),
+      isA<MigraineTrackerPrivacyPolicyPage>(),
+    );
+    expect(
+      AppRouter.pageFor('${LegalRoutes.migraineTrackerPrivacyPolicy}/'),
+      isA<MigraineTrackerPrivacyPolicyPage>(),
+    );
+    expect(
+      AppRouter.pageFor(LegalRoutes.migraineTrackerTermsOfUse),
+      isA<MigraineTrackerTermsOfUsePage>(),
+    );
+    expect(
+      AppRouter.pageFor('${LegalRoutes.migraineTrackerTermsOfUse}/'),
+      isA<MigraineTrackerTermsOfUsePage>(),
+    );
   });
 }
