@@ -5,7 +5,7 @@ class MigraineTrackerPrivacyPolicyContent {
 
   static const String title = 'Privacy Policy';
   static const String subtitle = 'Migraine, Aura & Pill Tracker';
-  static const String effectiveDate = 'Effective date: 4 September 2026';
+  static const String effectiveDate = 'Effective date: 6 October 2026';
   static const String documentTitle =
       'Privacy Policy — Migraine, Aura & Pill Tracker';
 
@@ -19,18 +19,20 @@ class MigraineTrackerPrivacyPolicyContent {
 
   static const List<LegalSection> sections = [
     LegalSection(
-      title: '1. We do not collect your data',
+      title: '1. Overview',
       body:
-          'We do not operate an account system, cloud backend, analytics '
-          'service, crash reporter, or advertising network for this app.\n\n'
-          'We do not transmit your personal or health information from the '
-          'device to us or to our partners in a way that would let us access '
-          'it later. In Apple\'s App Store Connect terms, this means **we do '
-          'not collect data from this app**.\n\n'
-          'Opening this Privacy Policy or the Terms of Use from the app '
-          'launches your device\'s browser and visits '
-          '[offlience.com](https://offlience.com). That website visit is not a '
-          'transfer of your diary, profile, or medication data.',
+          'Your migraine diary, profile, and medication records are stored '
+          '**only on your device**. We do not operate an account system or '
+          'cloud backend that stores that health information, and we do not '
+          'receive your diary entries on our servers.\n\n'
+          'The App may show **advertisements** through **Google AdMob** (Google '
+          'LLC). Ad serving is handled by Google and its partners under their '
+          'policies. **We do not use your health diary content for ads** and do '
+          'not send diary, profile, or medication data to Google for '
+          'advertising.\n\n'
+          'Opening this Privacy Policy or the Terms of Use from the App opens '
+          '[offlience.com](https://offlience.com) in your browser. That visit '
+          'does not upload your diary data.',
     ),
     LegalSection(
       title: '2. Information stored only on your device',
@@ -103,19 +105,34 @@ class MigraineTrackerPrivacyPolicyContent {
           'profile and health data). Treat backups as sensitive.\n\n'
           'You can import a backup you previously exported. Import replaces '
           'local data on that device.\n\n'
-          'We do not sell or share your information with advertisers, data '
-          'brokers, or other third parties.',
+          'We do not sell your on-device diary data. Advertising partners may '
+          'process data described in section 5 when ads are shown.',
     ),
     LegalSection(
-      title: '5. Tracking and advertising',
-      body: 'The app does not:',
-      bullets: [
-        'track you across other companies\' apps or websites',
-        'use the Advertising Identifier (IDFA)',
-        'show ads',
-        'use App Tracking Transparency',
-        'include analytics or marketing SDKs',
-      ],
+      title: '5. Advertising (Google AdMob)',
+      body:
+          'The App uses **Google AdMob** to display ads. Google may collect '
+          'and use information such as device identifiers, IP address, app '
+          'activity related to ads (for example impressions and clicks), and '
+          'approximate location derived from IP, to serve and measure ads, '
+          'combat fraud, and personalize ads where allowed by your device '
+          'settings and applicable law.\n\n'
+          'On **Android**, Google may use the advertising ID (GAID). On '
+          '**iOS**, Google may use the Identifier for Advertisers (IDFA) only '
+          'if you allow tracking when the system asks (App Tracking '
+          'Transparency).\n\n'
+          'Learn more about how Google uses data: '
+          '[Google Privacy Policy](https://policies.google.com/privacy). '
+          'AdMob-specific information: '
+          '[How Google uses data when you use our partners\' sites or apps]'
+          '(https://policies.google.com/technologies/partner-sites).\n\n'
+          'You can limit ad personalization in your device settings (for '
+          'example **Settings → Google → Ads** on Android, or **Settings → '
+          'Privacy → Tracking** on iOS). Resetting or limiting the advertising '
+          'ID may reduce personalized ads but not necessarily remove all ads.\n\n'
+          'We publish an [app-ads.txt](https://offlience.com/app-ads.txt) file '
+          'at the root of our developer website to declare authorized ad '
+          'sellers for this App.',
     ),
     LegalSection(
       title: '6. Children',
