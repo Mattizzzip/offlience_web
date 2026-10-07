@@ -5,7 +5,7 @@ class MigraineTrackerTermsOfUseContent {
 
   static const String title = 'Terms of Use';
   static const String subtitle = 'Migraine, Aura & Pill Tracker';
-  static const String effectiveDate = 'Effective date: 6 October 2026';
+  static const String effectiveDate = 'Effective date: 4 September 2026';
   static const String documentTitle =
       'Terms of Use — Migraine, Aura & Pill Tracker';
 
@@ -94,18 +94,12 @@ class MigraineTrackerTermsOfUseContent {
           'or licensors. These Terms do not transfer ownership to you.',
     ),
     LegalSection(
-      title: '8. Stores, advertising, and third-party services',
+      title: '8. Stores and third-party services',
       body:
           'Purchases, refunds, and installation are handled by Apple or Google '
-          'under their terms.\n\n'
-          'The App may show **advertisements** provided by **Google AdMob**. '
-          'Ads are served by Google and its partners under their terms and '
-          'privacy policies. Your use of the App with ads is also subject to '
-          'Google\'s policies where applicable.\n\n'
-          'The App may open your browser for this Privacy Policy, these Terms, '
-          'or advertiser-related pages. We are not responsible for other apps '
-          'or services you use to share an export, or for third-party ad '
-          'content or linked sites.',
+          'under their terms. The App may open your browser for this Privacy '
+          'Policy and these Terms. We are not responsible for other apps or '
+          'services you use to share an export.',
     ),
     LegalSection(
       title: '9. Disclaimer of warranties',

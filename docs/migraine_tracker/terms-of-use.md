@@ -1,7 +1,7 @@
 # Terms of Use
 
 **Migraine, Aura & Pill Tracker**  
-Effective date: 6 October 2026
+Effective date: 4 September 2026
 
 These Terms of Use (“Terms”) are an agreement between you and Individual Entrepreneur Andrei Osipau (“we”, “us”) for use of the mobile application **Migraine, Aura & Pill Tracker** (also shown in the app as Migraine Control) for iOS and Android (the “App”).
 
@@ -63,13 +63,9 @@ You must be old enough to enter a binding agreement where you live. If you are u
 
 The App, name, logo, and related materials belong to Andrei Osipau or licensors. These Terms do not transfer ownership to you.
 
-## 8. Stores, advertising, and third-party services
+## 8. Stores and third-party services
 
-Purchases, refunds, and installation are handled by Apple or Google under their terms.
-
-The App may show **advertisements** provided by **Google AdMob**. Ads are served by Google and its partners under their terms and privacy policies. Your use of the App with ads is also subject to Google’s policies where applicable.
-
-The App may open your browser for this Privacy Policy, these Terms, or advertiser-related pages. We are not responsible for other apps or services you use to share an export, or for third-party ad content or linked sites.
+Purchases, refunds, and installation are handled by Apple or Google under their terms. The App may open your browser for this Privacy Policy and these Terms. We are not responsible for other apps or services you use to share an export.
 
 ## 9. Disclaimer of warranties
 

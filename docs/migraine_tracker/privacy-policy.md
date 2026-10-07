@@ -1,19 +1,19 @@
 # Privacy Policy
 
 **Migraine, Aura & Pill Tracker**  
-Effective date: 6 October 2026
+Effective date: 4 September 2026
 
 This Privacy Policy explains how Individual Entrepreneur Andrei Osipau (“we”, “us”) handles information in the mobile application **Migraine, Aura & Pill Tracker** (also shown in the app as Migraine Control) for iOS and Android.
 
 The app is a personal self-tracking tool. It does not diagnose, prescribe treatment, or replace medical advice.
 
-## 1. Overview
+## 1. We do not collect your data
 
-Your migraine diary, profile, and medication records are stored **only on your device**. We do not operate an account system or cloud backend that stores that health information, and we do not receive your diary entries on our servers.
+We do not operate an account system, cloud backend, analytics service, crash reporter, or advertising network for this app.
 
-The App may show **advertisements** through **Google AdMob** (Google LLC). Ad serving is handled by Google and its partners under their policies. **We do not use your health diary content for ads** and do not send diary, profile, or medication data to Google for advertising.
+We do not transmit your personal or health information from the device to us or to our partners in a way that would let us access it later. In Apple’s App Store Connect terms, this means **we do not collect data from this app**.
 
-Opening this Privacy Policy or the Terms of Use from the App opens [offlience.com](https://offlience.com) in your browser. That visit does not upload your diary data.
+Opening this Privacy Policy or the Terms of Use from the app launches your device’s browser and visits [offlience.com](https://offlience.com). That website visit is not a transfer of your diary, profile, or medication data.
 
 ## 2. Information stored only on your device
 
@@ -53,7 +53,7 @@ The app may ask the system for:
 | Notifications | Medication reminders at times you set |
 | Photo library | Choosing a profile photo |
 
-The iOS binary includes a file-picker library used to import a backup (ZIP or JSON). That library links camera and location APIs, so the App Store requires purpose strings in Info.plist. **The app does not use your location and does not track you for the diary.** Profile photos are chosen with the system photo picker, not by uploading images to us.
+The iOS binary includes a file-picker library used to import a backup (ZIP or JSON). That library links camera and location APIs, so the App Store requires purpose strings in Info.plist. **The app does not use your location and does not track you.** Profile photos are chosen with the system photo picker, not by uploading images to us.
 
 You can deny permissions. The diary still works; reminders or a profile photo may be unavailable.
 
@@ -65,17 +65,17 @@ That sharing is **your action**. We do not receive the file. Anyone you send it 
 
 You can import a backup you previously exported. Import replaces local data on that device.
 
-We do not sell your on-device diary data. Advertising partners may process data described in section 5 when ads are shown.
+We do not sell or share your information with advertisers, data brokers, or other third parties.
 
-## 5. Advertising (Google AdMob)
+## 5. Tracking and advertising
 
-The App uses **Google AdMob** to display ads. Google may collect and use information such as device identifiers, IP address, app activity related to ads (for example impressions and clicks), and approximate location derived from IP, to serve and measure ads, combat fraud, and personalize ads where allowed by your device settings and applicable law.
+The app does not:
 
-On **Android**, Google may use the advertising ID (GAID). On **iOS**, Google may use the Identifier for Advertisers (IDFA) only if you allow tracking when the system asks (App Tracking Transparency).
-
-Learn more: [Google Privacy Policy](https://policies.google.com/privacy), [How Google uses data from partners](https://policies.google.com/technologies/partner-sites).
-
-You can limit ad personalization in your device settings. We publish [app-ads.txt](https://offlience.com/app-ads.txt) on our developer website.
+- track you across other companies’ apps or websites  
+- use the Advertising Identifier (IDFA)  
+- show ads  
+- use App Tracking Transparency  
+- include analytics or marketing SDKs  
 
 ## 6. Children
 
