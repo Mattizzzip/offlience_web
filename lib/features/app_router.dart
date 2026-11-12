@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:offlience_website/features/landing_page.dart';
 import 'package:offlience_website/features/legal/core/legal_routes.dart';
+import 'package:offlience_website/features/legal/aqua_merge_privacy_policy_page.dart';
 import 'package:offlience_website/features/legal/migraine_tracker_privacy_policy_page.dart';
 import 'package:offlience_website/features/legal/migraine_tracker_terms_of_use_page.dart';
 import 'package:offlience_website/features/legal/privacy_policy_page.dart';
@@ -41,6 +42,8 @@ class AppRouter {
         return const MigraineTrackerTermsOfUsePage();
       case LegalRoutes.migraineTrackerTermsOfUseRu:
         return const MigraineTrackerTermsOfUsePage(russian: true);
+      case LegalRoutes.aquaMergePrivacy:
+        return const AquaMergePrivacyPolicyPage();
       case '/':
       default:
         return const LandingPage();

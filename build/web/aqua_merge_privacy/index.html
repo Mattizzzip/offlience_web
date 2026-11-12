@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!--
+    If you are serving your web app in a path other than the root, change the
+    href value below to reflect the base path you are serving from.
+
+    The path provided below has to start and end with a slash "/" in order for
+    it to work correctly.
+
+    For more details:
+    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
+
+    This is a placeholder for base href that will be replaced by the value of
+    the `--base-href` argument provided to `flutter build`.
+  -->
+  <base href="/">
+
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="Andrei Osipau — software developer building mobile apps and web products.">
+  <meta name="theme-color" content="#0B121A">
+  <meta property="og:title" content="Andrei Osipau — Software Developer">
+  <meta property="og:description" content="Andrei Osipau — software developer building mobile apps and web products.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://offlience.com/">
+
+  <!-- iOS meta tags & icons -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Andrei Osipau">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="shortcut icon" href="favicon.ico">
+
+  <title>Andrei Osipau — Software Developer</title>
+  <!--
+    Flutter web may overwrite document.title with an empty string during boot.
+    Google indexes the rendered DOM, so guard against an empty <title>.
+  -->
+  <script>
+    (function () {
+      var SITE_TITLE = 'Andrei Osipau — Software Developer';
+      var titleEl = document.querySelector('title');
+
+      function applyTitle(value) {
+        var next = (value && String(value).trim()) ? String(value) : SITE_TITLE;
+        if (titleEl) {
+          titleEl.textContent = next;
+        }
+        return next;
+      }
+
+      try {
+        Object.defineProperty(document, 'title', {
+          configurable: true,
+          enumerable: true,
+          get: function () {
+            return titleEl ? titleEl.textContent : SITE_TITLE;
+          },
+          set: function (value) {
+            applyTitle(value);
+          }
+        });
+      } catch (e) {}
+
+      applyTitle(SITE_TITLE);
+
+      if (titleEl) {
+        new MutationObserver(function () {
+          if (!titleEl.textContent || !titleEl.textContent.trim()) {
+            titleEl.textContent = SITE_TITLE;
+          }
+        }).observe(titleEl, { childList: true, characterData: true, subtree: true });
+      }
+    })();
+  </script>
+  <link rel="manifest" href="manifest.json">
+</head>
+<body>
+  <!--
+    You can customize the "flutter_bootstrap.js" script.
+    This is useful to provide a custom configuration to the Flutter loader
+    or to give the user feedback during the initialization process.
+
+    For more details:
+    * https://docs.flutter.dev/platform-integration/web/initialization
+  -->
+  <script src="flutter_bootstrap.js" async></script>
+</body>
+</html>
