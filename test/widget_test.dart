@@ -5,6 +5,7 @@ import 'package:offlience_website/features/legal/core/legal_routes.dart';
 import 'package:offlience_website/features/legal/aqua_merge_privacy_policy_page.dart';
 import 'package:offlience_website/features/legal/migraine_tracker_privacy_policy_page.dart';
 import 'package:offlience_website/features/legal/migraine_tracker_terms_of_use_page.dart';
+import 'package:offlience_website/features/legal/photo_grafik_privacy_policy_page.dart';
 import 'package:offlience_website/features/legal/privacy_policy_page.dart';
 import 'package:offlience_website/features/legal/terms_of_service_page.dart';
 
@@ -51,6 +52,14 @@ void main() {
     expect(
       AppRouter.pageFor('${LegalRoutes.aquaMergePrivacy}/'),
       isA<AquaMergePrivacyPolicyPage>(),
+    );
+    expect(
+      AppRouter.pageFor(LegalRoutes.photoGrafikPrivacy),
+      isA<PhotoGrafikPrivacyPolicyPage>(),
+    );
+    expect(
+      AppRouter.pageFor('${LegalRoutes.photoGrafikPrivacy}/'),
+      isA<PhotoGrafikPrivacyPolicyPage>(),
     );
   });
 }

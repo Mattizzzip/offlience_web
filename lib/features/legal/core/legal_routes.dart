@@ -12,6 +12,7 @@ class LegalRoutes {
   static const String migraineTrackerTermsOfUseRu =
       '/migraine_tracker/terms_of_use/ru';
   static const String aquaMergePrivacy = '/aqua_merge_privacy';
+  static const String photoGrafikPrivacy = '/photo_grafik/privacy_policy';
 
   static String normalize(String? name) {
     if (name == null || name.isEmpty) {
